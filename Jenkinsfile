@@ -1,10 +1,17 @@
 pipeline {
-    agent any
+    agent { 
+        node {
+            label 'worker-node'
+            }
+      }
     stages {
         stage('Build') {
             steps {
                 echo "Building.."
                 sh '''
+                rm -rf Jenkins-test-1
+                git clone https://github.com/gwubc/Jenkins-test-1.git
+                cd Jenkins-test-1
                 docker build -t i1 .
                 '''
             }
@@ -21,7 +28,6 @@ pipeline {
             steps {
                 echo 'Deliver....'
                 sh '''
-                docker build -t i1 .
                 docker run i1
                 '''
             }
