@@ -1,14 +1,11 @@
 pipeline {
     agent any
-    triggers {
-        pollSCM '* * * * *'
-    }
     stages {
         stage('Build') {
             steps {
                 echo "Building.."
                 sh '''
-                echo "Building finish"
+                docker build -t i1 .
                 '''
             }
         }
@@ -16,7 +13,6 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh '''
-                docker build -t i1 .
                 docker run i1 python test.py
                 '''
             }
